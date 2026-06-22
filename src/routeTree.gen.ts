@@ -46,6 +46,7 @@ import { Route as AppCartRouteImport } from './routes/_app.cart'
 import { Route as AppAboutRouteImport } from './routes/_app.about'
 import { Route as AppSplatRouteImport } from './routes/_app.$'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
+import { Route as AccountWalletIndexRouteImport } from './routes/account.wallet.index'
 import { Route as AppProductsIndexRouteImport } from './routes/_app.products.index'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
@@ -246,6 +247,11 @@ const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
   path: '/admin/products/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountWalletIndexRoute = AccountWalletIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AccountWalletRoute,
+} as any)
 const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -373,6 +379,7 @@ export interface FileRoutesByFullPath {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/products/': typeof AppProductsIndexRoute
+  '/account/wallet/': typeof AccountWalletIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/orders/$id/pay': typeof AppOrdersIdPayRoute
 }
@@ -402,7 +409,6 @@ export interface FileRoutesByTo {
   '/account/profile': typeof AccountProfileRoute
   '/account/reviews': typeof AccountReviewsRoute
   '/account/security': typeof AccountSecurityRoute
-  '/account/wallet': typeof AccountWalletRouteWithChildren
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/payments': typeof AdminPaymentsRoute
@@ -424,6 +430,7 @@ export interface FileRoutesByTo {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/products': typeof AppProductsIndexRoute
+  '/account/wallet': typeof AccountWalletIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/orders/$id/pay': typeof AppOrdersIdPayRoute
 }
@@ -479,6 +486,7 @@ export interface FileRoutesById {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/_app/products/': typeof AppProductsIndexRoute
+  '/account/wallet/': typeof AccountWalletIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/_app/orders/$id/pay': typeof AppOrdersIdPayRoute
 }
@@ -534,6 +542,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/health'
     | '/products/'
+    | '/account/wallet/'
     | '/admin/products/'
     | '/orders/$id/pay'
   fileRoutesByTo: FileRoutesByTo
@@ -563,7 +572,6 @@ export interface FileRouteTypes {
     | '/account/profile'
     | '/account/reviews'
     | '/account/security'
-    | '/account/wallet'
     | '/admin/customers'
     | '/admin/orders'
     | '/admin/payments'
@@ -585,6 +593,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/health'
     | '/products'
+    | '/account/wallet'
     | '/admin/products'
     | '/orders/$id/pay'
   id:
@@ -639,6 +648,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/health'
     | '/_app/products/'
+    | '/account/wallet/'
     | '/admin/products/'
     | '/_app/orders/$id/pay'
   fileRoutesById: FileRoutesById
@@ -926,6 +936,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/wallet/': {
+      id: '/account/wallet/'
+      path: '/'
+      fullPath: '/account/wallet/'
+      preLoaderRoute: typeof AccountWalletIndexRouteImport
+      parentRoute: typeof AccountWalletRoute
+    }
     '/_app/products/': {
       id: '/_app/products/'
       path: '/'
@@ -1122,10 +1139,12 @@ const AccountClaimsRouteWithChildren = AccountClaimsRoute._addFileChildren(
 
 interface AccountWalletRouteChildren {
   AccountWalletTopupRoute: typeof AccountWalletTopupRoute
+  AccountWalletIndexRoute: typeof AccountWalletIndexRoute
 }
 
 const AccountWalletRouteChildren: AccountWalletRouteChildren = {
   AccountWalletTopupRoute: AccountWalletTopupRoute,
+  AccountWalletIndexRoute: AccountWalletIndexRoute,
 }
 
 const AccountWalletRouteWithChildren = AccountWalletRoute._addFileChildren(

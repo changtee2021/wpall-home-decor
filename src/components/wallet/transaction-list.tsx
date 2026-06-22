@@ -9,6 +9,8 @@ const TYPE_META = {
   adjust: { label: "ปรับยอดโดยแอดมิน", icon: Settings2, color: "text-muted-foreground", sign: "" },
 } as const;
 
+const DEFAULT_TYPE = TYPE_META.adjust;
+
 export function TransactionList({ items }: { items: WalletTx[] }) {
   if (items.length === 0)
     return (
@@ -20,7 +22,7 @@ export function TransactionList({ items }: { items: WalletTx[] }) {
   return (
     <div className="bg-card border border-border rounded-2xl divide-y divide-border overflow-hidden">
       {items.map((tx) => {
-        const m = TYPE_META[tx.type];
+        const m = TYPE_META[tx.type] ?? DEFAULT_TYPE;
         const Icon = m.icon;
         return (
           <div key={tx.id} className="px-4 py-3 flex items-center gap-3">
