@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import { AppErrorPage } from "@/components/errors/app-error-page";
 import { NotFoundPage } from "@/components/errors/not-found-page";
 import { AccountLayout } from "@/components/layout/account-layout";
@@ -46,6 +47,15 @@ function AccountNotFound() {
 }
 
 function AccountError({ error, reset }: { error: Error; reset: () => void }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const prevPathRef = useRef(pathname);
+
+  useEffect(() => {
+    if (prevPathRef.current === pathname) return;
+    prevPathRef.current = pathname;
+    reset();
+  }, [pathname, reset]);
+
   return (
     <AccountLayout>
       <AppErrorPage error={error} reset={reset} reportBoundary="account_layout_error" compact />

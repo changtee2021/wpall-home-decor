@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "@tanstack/react-router";
+import { Navigate, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -62,6 +62,17 @@ function useAccountSidebarData(userId: string | undefined) {
   return { profile, walletBalance, badges };
 }
 
+/** Remount child routes on navigation so content always follows the URL. */
+function AccountOutlet() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    releaseBodyScrollLock();
+  }, [pathname]);
+
+  return <Outlet key={pathname} />;
+}
+
 export function AccountLayout({ children }: AccountLayoutProps) {
   const { user, loading } = useAuth();
   const { profile, walletBalance, badges } = useAccountSidebarData(user?.id);
@@ -81,7 +92,7 @@ export function AccountLayout({ children }: AccountLayoutProps) {
           <AccountSidebar profile={profile} walletBalance={walletBalance} badges={badges} />
           <main className="flex-1 min-w-0 py-4 pb-8">
             <AccountMobileNav />
-            {children ?? <Outlet />}
+            {children ?? <AccountOutlet />}
           </main>
         </div>
       </div>

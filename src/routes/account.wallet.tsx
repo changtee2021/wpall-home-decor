@@ -1,9 +1,10 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/account/wallet")({
   component: WalletLayout,
 });
 
 function WalletLayout() {
-  return <Outlet />;
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return <Outlet key={pathname} />;
 }
