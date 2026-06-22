@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: WP ALL Mobile API v1
+  version: 1.0.0
+  description: REST layer for wpallin1-salepage mobile apps. See MOBILE-API.md.
+servers:
+  - url: https://wpallin1-salepage.vercel.app/api/mobile/v1
+security:
+  - bearerAuth: []
+paths:
+  /health:
+    get:
+      summary: Health check
+      security: []
+      responses:
+        "200":
+          description: OK
+  /me:
+    get:
+      summary: Current user profile
+      responses:
+        "200":
+          description: Profile payload
+    patch:
+      summary: Update profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name: { type: string }
+                phone: { type: string }
+                address: { type: string }
+      responses:
+        "200":
+          description: Updated
+  /cart:
+    get:
+      summary: Get cart
+      responses:
+        "200":
+          description: Cart with items
+    post:
+      summary: Add cart item
+      responses:
+        "200":
+          description: Updated cart
+    patch:
+      summary: Update cart item qty/price
+      responses:
+        "200":
+          description: Updated cart
+    delete:
+      summary: Remove cart item (query itemId)
+      parameters:
+        - in: query
+          name: itemId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Updated cart
+  /orders:
+    get:
+      summary: List orders
+      responses:
+        "200":
+          description: Order list
+    post:
+      summary: Create order
+      responses:
+        "200":
+          description: Created order
+  /checkout:
+    post:
+      summary: Checkout action (pay_wallet, c2c2p, submit_slip)
+      responses:
+        "200":
+          description: Checkout result
+  /wallet/topup:
+    post:
+      summary: Submit wallet topup
+      responses:
+        "200":
+          description: Topup request id
+  /claims:
+    post:
+      summary: Create product claim
+      responses:
+        "200":
+          description: Claim created
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

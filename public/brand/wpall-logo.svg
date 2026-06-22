@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="none" aria-hidden="true">
+  <path d="M8 32 L20 8 L28 24 L36 8 L48 32" stroke="#1F847E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 8 L64 32 L76 8" stroke="#F48F33" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="82" y="28" font-family="system-ui,sans-serif" font-weight="700" font-size="14" fill="#211F20">ALL</text>
+</svg>
